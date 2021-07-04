@@ -35,7 +35,7 @@ function load_mailbox(mailbox) {
 
 function send_email() {
 
-  const recipient = document.querySelector('#compose-recipients').value;
+  const recipients = document.querySelector('#compose-recipients').value;
   const subject = document.querySelector('#compose-subject').value;
   const body = document.querySelector('#compose-body').value;
 
@@ -44,7 +44,7 @@ function send_email() {
   fetch('emails', {
     method: 'POST',
     body: JSON.stringify({
-      recipients: recipient,
+      recipients: recipients,
       subject: subject,
       body: body
     })
