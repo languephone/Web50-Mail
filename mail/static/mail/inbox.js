@@ -35,11 +35,10 @@ function load_mailbox(mailbox) {
 
 function send_email() {
 
+  // Create variables from existing text in form
   const recipients = document.querySelector('#compose-recipients').value;
   const subject = document.querySelector('#compose-subject').value;
   const body = document.querySelector('#compose-body').value;
-
-  console.log(recipient, subject, body);
 
   fetch('emails', {
     method: 'POST',
@@ -50,7 +49,8 @@ function send_email() {
     })
   })
   .then(response => response.json())
-  .then(data => {
+  .then(result => {
+    console.log(result);
   });
   
   load_mailbox('sent');
