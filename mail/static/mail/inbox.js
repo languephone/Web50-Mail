@@ -35,16 +35,19 @@ function load_mailbox(mailbox) {
 
 function send_email() {
 
-  // event.preventDefault();
   fetch('emails', {
     method: 'POST',
     body: JSON.stringify({
-      recipients: 'bluebear@bunny.com', subject: 'from the console', body: 'from the console'})})
+      recipients: 'bluebear@bunny.com',
+      subject: 'from the console',
+      body: 'from the console'
+    })
+  })
   .then(response => response.json())
-  .then(data => console.log(data))
-
+  .then(data => {
+    console.log(data);
+  });
+  
+  load_mailbox('sent');
   return false;
 }
-
-// Working one-list post
-//fetch('emails', {method: 'POST', body: JSON.stringify({recipients: 'bluebear@bunny.com', subject: 'from the console', body: 'from the console'})}).then(res => res.json()).then(data => console.log(data))
