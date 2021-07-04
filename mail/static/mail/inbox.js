@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
   document.querySelector('#sent').addEventListener('click', () => load_mailbox('sent'));
   document.querySelector('#archived').addEventListener('click', () => load_mailbox('archive'));
   document.querySelector('#compose').addEventListener('click', compose_email);
+  document.querySelector('#compose-form').onsubmit = send_email;
 
   // By default, load the inbox
   load_mailbox('inbox');
@@ -31,3 +32,19 @@ function load_mailbox(mailbox) {
   // Show the mailbox name
   document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
 }
+
+function send_email() {
+
+  // event.preventDefault();
+  fetch('emails', {
+    method: 'POST',
+    body: JSON.stringify({
+      recipients: 'bluebear@bunny.com', subject: 'from the console', body: 'from the console'})})
+  .then(response => response.json())
+  .then(data => console.log(data))
+
+  return false;
+}
+
+// Working one-list post
+//fetch('emails', {method: 'POST', body: JSON.stringify({recipients: 'bluebear@bunny.com', subject: 'from the console', body: 'from the console'})}).then(res => res.json()).then(data => console.log(data))
