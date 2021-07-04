@@ -55,6 +55,10 @@ function load_mailbox(mailbox) {
       email_div.append(email_time)
       email_div.classList.add('email-line')
 
+      // Add a class if the email has been read
+      if (email.read === true) {
+        email_div.classList.add('read');
+      }
 
       document.querySelector('#emails-view').append(email_div);
 
