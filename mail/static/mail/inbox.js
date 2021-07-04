@@ -84,5 +84,7 @@ function send_email() {
   });
   
   load_mailbox('sent');
+
+  // Prevent form submitting via HTML
   return false;
 }
