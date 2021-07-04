@@ -35,17 +35,22 @@ function load_mailbox(mailbox) {
 
 function send_email() {
 
+  const recipient = document.querySelector('#compose-recipients').value;
+  const subject = document.querySelector('#compose-subject').value;
+  const body = document.querySelector('#compose-body').value;
+
+  console.log(recipient, subject, body);
+
   fetch('emails', {
     method: 'POST',
     body: JSON.stringify({
-      recipients: 'bluebear@bunny.com',
-      subject: 'from the console',
-      body: 'from the console'
+      recipients: recipient,
+      subject: subject,
+      body: body
     })
   })
   .then(response => response.json())
   .then(data => {
-    console.log(data);
   });
   
   load_mailbox('sent');
