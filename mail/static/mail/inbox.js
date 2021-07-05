@@ -77,7 +77,7 @@ function load_mailbox(mailbox) {
       
       // Add event listener to fetch individual email when clicked
       email_div.addEventListener('click', function() {
-        get_email(email.id);
+        display_email(email);
       });
 
     });
@@ -111,39 +111,33 @@ function send_email() {
   return false;
 }
 
-function get_email(id) {
+function display_email(email) {
 
   // Show email view and hide other views
   document.querySelector('#emails-view').style.display = 'none';
   document.querySelector('#compose-view').style.display = 'none';
   document.querySelector('#email-view').style.display = 'block';
 
-  fetch(`/emails/${id}`)
-  .then(response => response.json())
-  .then(email => {
+  const sender = document.createElement('h6');
+  const recipient = document.createElement('h6');
+  const subject = document.createElement('h6');
+  const timestamp = document.createElement('h6');
+  const body = document.createElement('h6');
+  const email_div = document.querySelector('#email-view');
 
-    const sender = document.createElement('h6');
-    const recipient = document.createElement('h6');
-    const subject = document.createElement('h6');
-    const timestamp = document.createElement('h6');
-    const body = document.createElement('h6');
-    const email_div = document.querySelector('#email-view');
+  sender.innerHTML = `<strong>From:</strong> ${email.sender}`;
+  recipient.innerHTML = `<strong>To:</strong> ${email.recipients}`;
+  subject.innerHTML = `<strong>Subject</strong>: ${email.subject}`;
+  timestamp.innerHTML = `<strong>Time</strong>: ${email.timestamp}`;
+  body.innerHTML = email.body
+  
+  // Clear existing content from email-view div
+  email_div.innerHTML = '';
 
-    sender.innerHTML = `From: ${email.sender}`;
-    recipient.innerHTML = `To: ${email.recipients}`;
-    subject.innerHTML = `Subject: ${email.subject}`;
-    timestamp.innerHTML = `TIme: ${email.timestamp}`;
-    body.innerHTML = email.body
-    
-    // Clear existing content from email-view div
-    email_div.innerHTML = '';
-
-    email_div.append(sender);
-    email_div.append(recipient);
-    email_div.append(subject);
-    email_div.append(timestamp);
-    email_div.append(document.createElement('hr'));
-    email_div.append(body);
-  });
-
+  email_div.append(sender);
+  email_div.append(recipient);
+  email_div.append(subject);
+  email_div.append(timestamp);
+  email_div.append(document.createElement('hr'));
+  email_div.append(body);
 }
