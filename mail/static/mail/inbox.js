@@ -75,7 +75,7 @@ function load_mailbox(mailbox) {
       document.querySelector('#emails-view').append(email_div);
 
       
-      // Add event listener to fetch individual email when clidked
+      // Add event listener to fetch individual email when clicked
       email_div.addEventListener('click', function() {
         get_email(email.id);
       });
