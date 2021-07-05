@@ -142,21 +142,34 @@ function display_email(email, mailbox) {
   email_div.append(subject);
   email_div.append(timestamp);
 
-  // Add archive button if mailbox is 'inbox'
-  if (mailbox === 'inbox') {
-    const archive_button = document.createElement('button');
-    archive_button.innerHTML = 'Archive'
-    archive_button.classList.add('btn');
-    archive_button.classList.add('btn-sm');
-    archive_button.classList.add('btn-outline-primary');
-    archive_button.addEventListener('click', archive_email(email.id));
-    email_div.append(archive_button);
-  };
+  // Add archive button
+  archive_button = add_archive_button(mailbox);
+  archive_button.addEventListener('click', archive_email(email.id, email.archived === false));
+  email_div.append(archive_button);
 
   email_div.append(document.createElement('hr'));
   email_div.append(body);
 
   update_read_status(email.id);
+}
+
+function add_archive_button(mailbox) {
+  
+  if (mailbox === 'inbox' || mailbox === 'archive') {
+    const archive_button = document.createElement('button');
+    archive_button.classList.add('btn');
+    archive_button.classList.add('btn-sm');
+    archive_button.classList.add('btn-outline-primary');
+
+    if (mailbox === 'inbox') {
+      archive_button.innerHTML = 'Archive'
+    }
+    else {
+      archive_button.innerHTML = 'Unarchive'
+    }
+
+    return archive_button
+  }
 }
 
 function update_read_status(id) {
@@ -169,12 +182,12 @@ function update_read_status(id) {
   })
 }
 
-function archive_email(id) {
+function archive_email(id, status) {
 
   fetch(`/emails/${id}`, {
     method: 'PUT',
     body: JSON.stringify({
-      archived: true
+      archived: status
     })
   })
 }
