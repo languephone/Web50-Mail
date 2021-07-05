@@ -16,6 +16,7 @@ function compose_email() {
   // Show compose view and hide other views
   document.querySelector('#emails-view').style.display = 'none';
   document.querySelector('#compose-view').style.display = 'block';
+  document.querySelector('#email-view').style.display = 'none';
 
   // Clear out composition fields
   document.querySelector('#compose-recipients').value = '';
@@ -28,6 +29,7 @@ function load_mailbox(mailbox) {
   // Show the mailbox and hide other views
   document.querySelector('#emails-view').style.display = 'block';
   document.querySelector('#compose-view').style.display = 'none';
+  document.querySelector('#email-view').style.display = 'none';
 
   // Show the mailbox name
   document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
@@ -37,22 +39,31 @@ function load_mailbox(mailbox) {
   .then(response => response.json())
   .then(emails => {
     emails.forEach(function(email) {
+      
+      // Create div for each email
       const email_div = document.createElement('div');
+      
+      // Create spans for each email's elements, to put inside email div
       const email_sender = document.createElement('span');
       const email_subject = document.createElement('span');
       const email_time = document.createElement('span');
 
+      // Enter content for spans
       email_sender.innerHTML = email.sender
       email_subject.innerHTML = email.subject
       email_time.innerHTML = email.timestamp
 
+      // Add classes to spans for css formatting
       email_sender.classList.add('email-sender')
       email_subject.classList.add('email-subject')
       email_time.classList.add('email-time')
-
+      
+      // Append each span to the email div
       email_div.append(email_sender)
       email_div.append(email_subject)
       email_div.append(email_time)
+      
+      // Add classes to div for css formatting
       email_div.classList.add('email-line')
 
       // Add a class if the email has been read
@@ -60,15 +71,18 @@ function load_mailbox(mailbox) {
         email_div.classList.add('read');
       }
 
+      // Add email div to main 'emails-view' div
       document.querySelector('#emails-view').append(email_div);
 
+      
+      // Add event listener to fetch individual email when clidked
       email_div.addEventListener('click', function() {
         get_email(email.id);
       });
 
-      });
     });
-  }
+  });
+}
 
 
 function send_email() {
@@ -98,7 +112,13 @@ function send_email() {
 }
 
 function get_email(id) {
-  const email_id = id;
+
+  // Show email view and hide other views
+  document.querySelector('#email-view').style.display = 'block';
+  document.querySelector('#emails-view').style.display = 'none';
+  document.querySelector('#compose-view').style.display = 'none';
+
+
   fetch(`/emails/${id}`)
   .then(response => response.json())
   .then(email => {
