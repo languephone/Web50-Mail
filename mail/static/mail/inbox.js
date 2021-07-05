@@ -143,4 +143,17 @@ function display_email(email) {
   email_div.append(timestamp);
   email_div.append(document.createElement('hr'));
   email_div.append(body);
+
+  update_read_status(email.id);
+}
+
+function update_read_status(id) {
+
+  fetch(`/emails/${id}`, {
+    method: 'PUT',
+    body: JSON.stringify({
+      read: true
+    })
+  })
+
 }
