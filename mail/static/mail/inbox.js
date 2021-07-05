@@ -118,6 +118,7 @@ function display_email(email) {
   document.querySelector('#compose-view').style.display = 'none';
   document.querySelector('#email-view').style.display = 'block';
 
+  // Create elements to hold email content
   const sender = document.createElement('h6');
   const recipient = document.createElement('h6');
   const subject = document.createElement('h6');
@@ -125,6 +126,7 @@ function display_email(email) {
   const body = document.createElement('h6');
   const email_div = document.querySelector('#email-view');
 
+  // Add email content to new elements
   sender.innerHTML = `<strong>From:</strong> ${email.sender}`;
   recipient.innerHTML = `<strong>To:</strong> ${email.recipients}`;
   subject.innerHTML = `<strong>Subject</strong>: ${email.subject}`;
@@ -134,6 +136,7 @@ function display_email(email) {
   // Clear existing content from email-view div
   email_div.innerHTML = '';
 
+  // Append email content to email-view div
   email_div.append(sender);
   email_div.append(recipient);
   email_div.append(subject);
