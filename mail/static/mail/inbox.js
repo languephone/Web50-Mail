@@ -77,7 +77,7 @@ function load_mailbox(mailbox) {
       
       // Add event listener to fetch individual email when clicked
       email_div.addEventListener('click', function() {
-        display_email(email);
+        display_email(email, mailbox);
       });
 
     });
@@ -111,7 +111,7 @@ function send_email() {
   return false;
 }
 
-function display_email(email) {
+function display_email(email, mailbox) {
 
   // Show email view and hide other views
   document.querySelector('#emails-view').style.display = 'none';
@@ -141,6 +141,18 @@ function display_email(email) {
   email_div.append(recipient);
   email_div.append(subject);
   email_div.append(timestamp);
+
+  // Add archive button if mailbox is 'inbox'
+  if (mailbox === 'inbox') {
+    const archive_button = document.createElement('button');
+    archive_button.innerHTML = 'Archive'
+    archive_button.classList.add('btn');
+    archive_button.classList.add('btn-sm');
+    archive_button.classList.add('btn-outline-primary');
+    archive_button.addEventListener('click', archive_email(email.id));
+    email_div.append(archive_button);
+  };
+
   email_div.append(document.createElement('hr'));
   email_div.append(body);
 
@@ -155,5 +167,14 @@ function update_read_status(id) {
       read: true
     })
   })
+}
 
+function archive_email(id) {
+
+  fetch(`/emails/${id}`, {
+    method: 'PUT',
+    body: JSON.stringify({
+      archived: true
+    })
+  })
 }
