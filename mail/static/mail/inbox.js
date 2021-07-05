@@ -62,6 +62,10 @@ function load_mailbox(mailbox) {
 
       document.querySelector('#emails-view').append(email_div);
 
+      email_div.addEventListener('click', function() {
+        get_email(email.id);
+      });
+
       });
     });
   }
@@ -91,4 +95,13 @@ function send_email() {
 
   // Prevent form submitting via HTML
   return false;
+}
+
+function get_email(id) {
+  const email_id = id;
+  fetch(`/emails/${id}`)
+  .then(response => response.json())
+  .then(email => {
+    console.log(email);
+  });
 }
