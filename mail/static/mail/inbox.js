@@ -144,8 +144,23 @@ function display_email(email, mailbox) {
   // Add reply button
   reply_button = add_button('inbox', 'Reply');
   reply_button.addEventListener('click', function() {
-    compose_email();
-  })
+    
+    // Create subject for reply
+    let reply_subject = email.subject
+    // Prevent 'Re: ' from chaining on multiple replies
+    if (reply_subject.substring(0, 4) === 'Re: ') {
+    }
+    else {
+      reply_subject = `Re: ${email.subject}`;
+    }  
+    
+    // Create email body for reply
+    const reply_body = `On ${email.timestamp} ${email.sender} wrote:
+      ${email.body}`
+
+    compose_email(email.sender, reply_subject, reply_body);
+  });
+  
   email_div.append(reply_button);
 
   // Add archive button for inbox & archive but not sent
