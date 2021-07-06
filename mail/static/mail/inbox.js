@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
   load_mailbox('inbox');
 });
 
-function compose_email() {
+function compose_email(to_text, subject_text, body_text) {
 
   // Show compose view and hide other views
   document.querySelector('#emails-view').style.display = 'none';
@@ -142,7 +142,11 @@ function display_email(email, mailbox) {
   email_div.append(timestamp);
 
   // Add reply button
-  const reply_button = document.createElement('button');
+  reply_button = add_button('inbox', 'Reply');
+  reply_button.addEventListener('click', function() {
+    compose_email();
+  })
+  email_div.append(reply_button);
 
   // Add archive button for inbox & archive but not sent
   if (mailbox === 'inbox' || mailbox === 'archive') {
