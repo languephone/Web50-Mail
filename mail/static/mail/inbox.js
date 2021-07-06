@@ -74,7 +74,6 @@ function load_mailbox(mailbox) {
       // Add email div to main 'emails-view' div
       document.querySelector('#emails-view').append(email_div);
 
-      
       // Add event listener to fetch individual email when clicked
       email_div.addEventListener('click', function() {
         display_email(email, mailbox);
@@ -142,9 +141,12 @@ function display_email(email, mailbox) {
   email_div.append(subject);
   email_div.append(timestamp);
 
+  // Add reply button
+  const reply_button = document.createElement('button');
+
   // Add archive button for inbox & archive but not sent
   if (mailbox === 'inbox' || mailbox === 'archive') {
-    archive_button = add_archive_button(mailbox);
+    archive_button = add_button(mailbox, 'Archive');
     archive_button.addEventListener('click', function() {
       archive_email(email.id, email.archived === false);
     });
@@ -157,21 +159,21 @@ function display_email(email, mailbox) {
   update_read_status(email.id);
 }
 
-function add_archive_button(mailbox) {
+function add_button(mailbox, text) {
   
-  const archive_button = document.createElement('button');
-  archive_button.classList.add('btn');
-  archive_button.classList.add('btn-sm');
-  archive_button.classList.add('btn-outline-primary');
+  const new_button = document.createElement('button');
+  new_button.classList.add('btn');
+  new_button.classList.add('btn-sm');
+  new_button.classList.add('btn-outline-primary');
 
-  if (mailbox === 'inbox') {
-    archive_button.innerHTML = 'Archive';
+  if (mailbox === 'archive' && text === 'Archive') {
+    new_button.innerHTML = 'Unarchive';
   }
   else {
-    archive_button.innerHTML = 'Unarchive';
+    new_button.innerHTML = text;
   }
 
-  return archive_button;
+  return new_button;
 }
 
 function update_read_status(id) {
