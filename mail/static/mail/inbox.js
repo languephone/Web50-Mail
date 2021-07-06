@@ -142,13 +142,15 @@ function display_email(email, mailbox) {
   email_div.append(subject);
   email_div.append(timestamp);
 
-  // Add archive button
-  archive_button = add_archive_button(mailbox);
-  archive_button.addEventListener('click', function() {
-    archive_email(email.id, email.archived === false);
-  });
-  email_div.append(archive_button);
-
+  // Add archive button for inbox & archive but not sent
+  if (mailbox === 'inbox' || mailbox === 'archive') {
+    archive_button = add_archive_button(mailbox);
+    archive_button.addEventListener('click', function() {
+      archive_email(email.id, email.archived === false);
+    });
+    email_div.append(archive_button);
+  }
+  
   email_div.append(document.createElement('hr'));
   email_div.append(body);
 
@@ -157,21 +159,19 @@ function display_email(email, mailbox) {
 
 function add_archive_button(mailbox) {
   
-  if (mailbox === 'inbox' || mailbox === 'archive') {
-    const archive_button = document.createElement('button');
-    archive_button.classList.add('btn');
-    archive_button.classList.add('btn-sm');
-    archive_button.classList.add('btn-outline-primary');
+  const archive_button = document.createElement('button');
+  archive_button.classList.add('btn');
+  archive_button.classList.add('btn-sm');
+  archive_button.classList.add('btn-outline-primary');
 
-    if (mailbox === 'inbox') {
-      archive_button.innerHTML = 'Archive'
-    }
-    else {
-      archive_button.innerHTML = 'Unarchive'
-    }
-
-    return archive_button
+  if (mailbox === 'inbox') {
+    archive_button.innerHTML = 'Archive';
   }
+  else {
+    archive_button.innerHTML = 'Unarchive';
+  }
+
+  return archive_button;
 }
 
 function update_read_status(id) {
@@ -191,8 +191,9 @@ function archive_email(id, status) {
     body: JSON.stringify({
       archived: status
     })
-  });
+  })
+  .then(load_mailbox('inbox'))
 
   // Take user back to inbox view after archiving
-  load_mailbox('inbox');
+  // load_mailbox('inbox');
 }
