@@ -49,19 +49,19 @@ function load_mailbox(mailbox) {
       const email_time = document.createElement('span');
 
       // Enter content for spans
-      email_sender.innerHTML = email.sender
-      email_subject.innerHTML = email.subject
-      email_time.innerHTML = email.timestamp
+      email_sender.innerHTML = email.sender;
+      email_subject.innerHTML = email.subject;
+      email_time.innerHTML = email.timestamp;
 
       // Add classes to spans for css formatting
-      email_sender.classList.add('email-sender')
-      email_subject.classList.add('email-subject')
-      email_time.classList.add('email-time')
+      email_sender.classList.add('email-sender');
+      email_subject.classList.add('email-subject');
+      email_time.classList.add('email-time');
       
       // Append each span to the email div
-      email_div.append(email_sender)
+      email_div.append(email_sender);
       email_div.append(email_subject)
-      email_div.append(email_time)
+      email_div.append(email_time);
       
       // Add classes to div for css formatting
       email_div.classList.add('email-line')
@@ -144,7 +144,9 @@ function display_email(email, mailbox) {
 
   // Add archive button
   archive_button = add_archive_button(mailbox);
-  archive_button.addEventListener('click', archive_email(email.id, email.archived === false));
+  archive_button.addEventListener('click', function() {
+    archive_email(email.id, email.archived === false);
+  });
   email_div.append(archive_button);
 
   email_div.append(document.createElement('hr'));
@@ -189,5 +191,8 @@ function archive_email(id, status) {
     body: JSON.stringify({
       archived: status
     })
-  })
+  });
+
+  // Take user back to inbox view after archiving
+  load_mailbox('inbox');
 }
