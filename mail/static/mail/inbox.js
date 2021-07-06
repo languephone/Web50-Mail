@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
   document.querySelector('#inbox').addEventListener('click', () => load_mailbox('inbox'));
   document.querySelector('#sent').addEventListener('click', () => load_mailbox('sent'));
   document.querySelector('#archived').addEventListener('click', () => load_mailbox('archive'));
-  document.querySelector('#compose').addEventListener('click', compose_email);
+  document.querySelector('#compose').addEventListener('click', () => compose_email('', '', ''));
   document.querySelector('#compose-form').onsubmit = send_email;
 
   // By default, load the inbox
@@ -18,10 +18,10 @@ function compose_email(to_text, subject_text, body_text) {
   document.querySelector('#compose-view').style.display = 'block';
   document.querySelector('#email-view').style.display = 'none';
 
-  // Clear out composition fields
-  document.querySelector('#compose-recipients').value = '';
-  document.querySelector('#compose-subject').value = '';
-  document.querySelector('#compose-body').value = '';
+  // Fill in composition fields with arguments
+  document.querySelector('#compose-recipients').value = to_text;
+  document.querySelector('#compose-subject').value = subject_text;
+  document.querySelector('#compose-body').value = body_text;
 }
 
 function load_mailbox(mailbox) {
