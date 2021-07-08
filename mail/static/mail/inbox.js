@@ -131,6 +131,7 @@ function display_email(email, mailbox) {
   subject.innerHTML = `<strong>Subject</strong>: ${email.subject}`;
   timestamp.innerHTML = `<strong>Time</strong>: ${email.timestamp}`;
   body.innerHTML = email.body
+  console.log(body.innerHTML);
   
   // Clear existing content from email-view div
   email_div.innerHTML = '';
@@ -213,8 +214,9 @@ function archive_email(id, status) {
       archived: status
     })
   })
-  .then(load_mailbox('inbox'))
-
-  // Take user back to inbox view after archiving
-  // load_mailbox('inbox');
+  
+  // Delay loading of inbox to allow database time to update
+  setTimeout(function() {
+    load_mailbox('inbox');
+  }, 300)
 }
