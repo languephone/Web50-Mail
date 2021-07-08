@@ -100,11 +100,12 @@ function send_email() {
     })
   })
   .then(response => response.json())
-  .then(result => {
-    console.log(result);
-  });
   
-  load_mailbox('sent');
+  // Delay loading of sent box to allow database time to update
+  setTimeout(function() {
+    load_mailbox('sent');
+  }, 300)
+  
 
   // Prevent form submitting via HTML
   return false;
@@ -131,7 +132,6 @@ function display_email(email, mailbox) {
   subject.innerHTML = `<strong>Subject</strong>: ${email.subject}`;
   timestamp.innerHTML = `<strong>Time</strong>: ${email.timestamp}`;
   body.innerHTML = email.body
-  console.log(body.innerHTML);
   
   // Clear existing content from email-view div
   email_div.innerHTML = '';
@@ -185,6 +185,7 @@ function add_button(mailbox, text) {
   new_button.classList.add('btn');
   new_button.classList.add('btn-sm');
   new_button.classList.add('btn-outline-primary');
+  new_button.classList.add('js-button');
 
   if (mailbox === 'archive' && text === 'Archive') {
     new_button.innerHTML = 'Unarchive';
