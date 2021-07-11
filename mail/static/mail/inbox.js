@@ -129,8 +129,8 @@ function display_email(email, mailbox) {
   // Add email content to new elements
   sender.innerHTML = `<strong>From:</strong> ${email.sender}`;
   recipient.innerHTML = `<strong>To:</strong> ${email.recipients}`;
-  subject.innerHTML = `<strong>Subject</strong>: ${email.subject}`;
-  timestamp.innerHTML = `<strong>Time</strong>: ${email.timestamp}`;
+  subject.innerHTML = `<strong>Subject:</strong> ${email.subject}`;
+  timestamp.innerHTML = `<strong>Time:</strong> ${email.timestamp}`;
   body.innerHTML = email.body
   
   // Clear existing content from email-view div
